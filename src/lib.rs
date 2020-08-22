@@ -1,7 +1,5 @@
-mod expense;
-mod income;
 mod errors;
-mod types;
+mod budget_item;
 mod budget_group;
 
 
