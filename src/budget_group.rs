@@ -74,6 +74,15 @@ impl BudgetGroup {
         self.items.sort_unstable();
         Ok(())
     }
+
+    /// Calculate the total budget for this group, based on a monthly recurring cycle.
+    ///
+    /// # Returns
+    /// The total of all the budget items in this group. Will be a negative number if the group
+    /// contains more total expenses than income.
+    pub fn total(&self) -> f64 {
+        self.items.iter().map(|item| item.monthly_contribution()).sum()
+    }
 }
 
 #[cfg(test)]
@@ -120,5 +129,14 @@ mod test {
         let removed = item_group.remove(0);
         assert!(removed.is_ok());
         assert_eq!(0, item_group.enumerate().len())
+    }
+
+    #[test]
+    fn total() {
+        let mut group = BudgetGroup::new("A group");
+        group.add(BudgetItem::with_income("Income item", 100.0, Period::Every1Month));
+        group.add(BudgetItem::with_expense("Expense item", 100.0, Period::Every2Months));
+
+        assert_eq!(50.0, group.total())
     }
 }

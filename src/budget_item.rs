@@ -41,7 +41,7 @@ pub struct BudgetItem {
     name: String,
     period: Period,
     item_type: Type,
-    amount: f32,
+    amount: f64,
 }
 
 // Local type denoting the type of the budget item.
@@ -68,7 +68,7 @@ impl BudgetItem {
     ///
     /// # Panics
     /// If the amount is less than 0, the method will panic.
-    pub fn with_income(name: &str, amount: f32, period: Period) -> BudgetItem {
+    pub fn with_income(name: &str, amount: f64, period: Period) -> BudgetItem {
         Self::check_amount(&amount);
 
         BudgetItem{
@@ -94,7 +94,7 @@ impl BudgetItem {
     ///
     /// # Panics
     /// If the amount is less than 0, the method will panic.
-    pub fn with_expense(name: &str, amount: f32, period: Period) -> BudgetItem {
+    pub fn with_expense(name: &str, amount: f64, period: Period) -> BudgetItem {
         Self::check_amount(&amount);
 
         BudgetItem{
@@ -109,7 +109,7 @@ impl BudgetItem {
     ///
     /// # Returns
     /// The monthly contribution, calculated based on the entry's amount and its period.
-    pub fn monthly_contribution(&self) -> f32 {
+    pub fn monthly_contribution(&self) -> f64 {
         let num = match self.period {
             Period::Every1Month => self.amount,
             Period::Every2Months => self.amount / 2.0,
@@ -124,7 +124,7 @@ impl BudgetItem {
         }
     }
 
-    fn check_amount(amount: &f32) {
+    fn check_amount(amount: &f64) {
         assert!(*amount > 0.0, "Amount must be greater than 0");
     }
 }
